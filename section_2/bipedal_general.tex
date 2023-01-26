@@ -6,13 +6,27 @@
 ここでは,二足歩行ロボットの歩行パターン生成を行う際に重要となる、ロボットのモデリング方法、安定性判別手法について述べる。
 
 \subsection{ZMP}
-まず、二足ロボットの安定性判別指標として代表的なものとして、Vukobratovićらによって提案されたZero Moment Point（以下、ZMP）\cite{VUKOBRATOVIC19721}がある。ZMPはロボットが床から受ける床反力の圧力中心と定義される。以下の図（）では、ロボットの足に作用する床反力の合計と等価な力であるRの位置がZMPの位置となる。
+まず、二足ロボットの安定性判別指標として代表的なものとして、Vukobratovićらによって提案されたZero Moment Point（以下、ZMP）\cite{VUKOBRATOVIC19721}がある。ZMPはロボットが床から受ける床反力の圧力中心と定義される。以下の図\ref{Fig:zmpillust}では、ロボットの足に作用する床反力の合計と等価な力であるRの位置がZMPの位置となる。
 
-（図を入れる）
+\begin{figure}[hbtp]
+  \centering
+ \includegraphics[keepaspectratio, scale=0.6]
+      {images/zmp_ilust.png}
+ \caption{Illustration of ZMP }
+ \label{Fig:zmpillust}
+\end{figure}
 
 \subsection{テーブル台車モデル}
-二足歩行ロボットのモデル化手法として、テーブル・台車がある。このモデル化により、式（）を導ける。ここで、x,x..はロボットの重心位置と重心加速度、hCoMは鉛直方向の重心高さ、gは重心の加速度、pはzmpの位置である。
+二足歩行ロボットのモデル化手法として、図\ref{Fig:tablecart}に示すようなテーブル・台車モデルがある。このモデル化により、式（）を導ける。ここで、x,x..はロボットの重心位置と重心加速度、hCoMは鉛直方向の重心高さ、gは重心の加速度、pはzmpの位置である。
 式（）に対して、システムへの入力を重心の躍度（jerk）すると、以下のシステムとして表現できる。
+
+\begin{figure}[hbtp]
+  \centering
+ \includegraphics[keepaspectratio, scale=0.6]
+      {images/table_cart_hcom.png}
+ \caption{Illustration of table-cart model }
+ \label{Fig:tablecart}
+\end{figure}
 
 \subsection{予見制御による歩行パターン生成手法}
 上記のZMPとテーブル台車モデルの概念を利用した歩行パターン生成手法として、kajitaらによる予見制御を利用した歩行パターン生成手法\cite{PREVIEW}がある。kajitaらによる手法では式（）によって表現したロボットのダイナミクスに対して、予見制御理論によって以下の評価関数式（）、を最小化する制御入力（二足歩行ロボットの歩行パターン）を得る。
