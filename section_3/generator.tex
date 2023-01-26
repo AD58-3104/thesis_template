@@ -4,8 +4,37 @@
 
 \section{公開する情報}
 本研究では、公開する内容として、文献等で明文化されにくい部分を特に対象とする。現状、文献等での明文化が少ないと筆者が捉えているのは以下の3種の情報である。
-\begin{itemize}
+\begin{enumerate}
   \item 具体的なソースコードの実装
-  \item 実際に歩行パターンを生成できるパラメータの例
+  \item 実際に歩行パターンを生成可能なパラメータの例
   \item 実装時に得た知見
+\end{enumerate}
+
+以上3種の情報に対して、本研究では具体的に以下に示す情報を公開する。
+
+\begin{itemize}
+  \item C++言語で実装したMPCによる歩行パターン生成器のソースコード
+  \item 実装した歩行パターン生成器で歩行パターンを生成可能なパラメータの一例
+  \item 式（）で示されるMPCの標準形である評価関数を最適化ソルバーが求める形式へ変形する手法
+  \item 上記の実装を行う上で、筆者が得た知見
 \end{itemize}
+
+上記に対して、インターネット上で誰でもアクセスできるGithub\cite{MYGITHUB}にて情報の公開を行う。
+
+\section{実装手法}
+
+本研究では、以下の表に示すライブラリ群を利用し、C++言語にて実装を行った。
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{|c|c|} \hline
+    QP solver & osqp\cite{OSQP} \\ \hline
+    C++ binding of osqp &  osqp-eigen\cite{OSQPEIGEN} \\ \hline
+    Linear algebra library &  eigen-3.4.0\cite{EIGEN} \\ \hline
+  \end{tabular}
+  \caption{Libraries used for implementation}
+  \label{tb:mulcol}
+\end{table}
+
+
+\subsection{}
