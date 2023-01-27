@@ -26,15 +26,76 @@
   \label{eq:table-cart}
 \end{equation}
 
+
 \begin{equation}
-  \begin{cases}
-    \dot{x} &= Ax + Bu\\
-    y &= Cx
-  \end{cases}
-  \label{eq:humanoid-system}
+  \frac{d}{dt}\begin{pmatrix}
+    x \\ \dot{x} \\ \ddot{x}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0
+  \end{pmatrix}
+  \begin{pmatrix}
+    x \\ \dot{x} \\ \ddot{x}
+  \end{pmatrix}
+  +
+  \begin{pmatrix}
+    0 \\ 0 \\ 1
+  \end{pmatrix}
+  u
+  \label{eq:teble-cart-system-state}
 \end{equation}
 
+\begin{equation}
+  p = \begin{pmatrix}
+    1 & 0 & -\frac{h_{CoM}}{g}
+  \end{pmatrix}
+  \begin{pmatrix}
+    x \\ \dot{x} \\ \ddot{x}
+  \end{pmatrix}
+  \label{eq:teble-cart-system-output}
+\end{equation}
 
+% \begin{equation}
+%   \begin{cases}
+%     \dot{x} & = Ax + Bu \\
+%     y       & = Cx
+%   \end{cases}
+%   \label{eq:humanoid-system}
+% \end{equation}
+
+\begin{equation}
+  \hat{x}_{k}=
+  \begin{pmatrix}
+    x(kT)\cr \dot{x}(kT)\cr\ddot{x}(kT)
+  \end{pmatrix}
+  ,
+  % {\buildrel\ldots\over{u}}_{k}
+  u_{k}
+    =
+    {\buildrel\ldots\over{x}}(kT)
+    , z_{k}=z(kT),
+\end{equation}
+
+\begin{equation}
+  \hat{x}_{k+1}=
+  \begin{pmatrix}
+    1&T&T^{2}/2\cr 0&1&T\cr 0&0&1
+  \end{pmatrix}
+  \hat{x}_{k} +
+  \begin{pmatrix}
+    T^{3}/6 \\  T^{3}/2 \\ T
+  \end{pmatrix}
+  u_{k}
+\end{equation}
+
+\begin{equation}
+  z_{k} =
+  \begin{pmatrix}
+   1 & 0 & \frac{h_{CoM}}{g}
+  \end{pmatrix}
+  \hat{x}_{k}
+\end{equation}
 
 \begin{figure}[hbtp]
   \centering
@@ -44,13 +105,20 @@
   \label{Fig:tablecart}
 \end{figure}
 
+
+
 \newpage
 
 \subsection{予見制御による歩行パターン生成手法}
 上記のZMPとテーブル台車モデルの概念を利用した歩行パターン生成手法として、kajitaらによる予見制御を利用した歩行パターン生成手法\cite{PREVIEW}がある。kajitaらによる手法では式（）によって表現したロボットのダイナミクスに対して、予見制御理論によって以下の評価関数式（）、を最小化する制御入力（二足歩行ロボットの歩行パターン）を得る。
 
 （式を入れる）
-prefの説明を入れる
+\begin{equation}
+  \min_{{\buildrel\ldots\over{x}}_{k},{\buildrel\ldots\over{x}}_{k+1},\ldots}\sum_{i=k}^{\infty}{1\over 2}Q\left(z_{i+1}-z_{i+1}^{ref}\right)^{2}+{1\over 2}R{\buildrel\ldots\over{x}}_{i}^{2}
+  \label{eq:mpc_valuefunc}
+\end{equation}
+
+式\eqref{eq:mpc_valuefunc}内、$z$はZMPの位置、$z^{ref}$はZMPの目標位置、$u$は入力である重心の躍度（jerk）を示す。
 
 \subsection{MPCを利用した歩行パターン生成手法}
 本研究では、kajitaらによる予見制御を利用した歩行パターン生成手法\cite{PREVIEW}をMPCによって拡張した、Wieberらによる手法\cite{WIEBER}を実装する。ここでは、その手法\cite{WIEBER}について説明する。
