@@ -38,8 +38,13 @@
 
 
 \subsection{実装上必要なMPCの式変形}
-式\eqref{eq:control-general-system}で表されるシステムに対する、MPCにおける評価関数の標準的な立式は式（）となる。
-（式を書く）書籍 p52より
+式\eqref{eq:control-general-system}で表される標準的なシステムに対する、MPCにおける評価関数の標準的な立式は式\eqref{eq:mpc_general_valuefunc}となる。
+
+\begin{equation}
+  \min_{{\buildrel\ldots\over{x}}_{k},{\buildrel\ldots\over{x}}_{k+1},\ldots,{\buildrel\ldots\over{x}}_{k+n}}\sum_{i=k}^{n}{1\over 2}Q\left(x_{i+1}-x_{i+1}^{ref}\right)^{2}+{1\over 2}R{u}_{i}^{2}
+  \label{eq:mpc_general_valuefunc}
+\end{equation}
+
 また、制約は以下の様に表される。
 （式を書く）　状態制約　不等式と等式
 （式を書く）　入力制約　不等式と等式
