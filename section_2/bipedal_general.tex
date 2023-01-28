@@ -68,13 +68,13 @@
   u_{k}
     =
     {\buildrel\ldots\over{x}}(kT)
-    , z_{k}=z(kT),
+  , z_{k}=z(kT),
 \end{equation}
 
 \begin{equation}
   \hat{x}_{k+1}=
   \begin{pmatrix}
-    1&T&T^{2}/2\cr 0&1&T\cr 0&0&1
+    1 & T & T^{2}/2\cr 0 & 1 & T\cr 0 & 0 & 1
   \end{pmatrix}
   \hat{x}_{k} +
   \begin{pmatrix}
@@ -86,7 +86,7 @@
 \begin{equation}
   z_{k} =
   \begin{pmatrix}
-   1 & 0 & \frac{h_{CoM}}{g}
+    1 & 0 & \frac{h_{CoM}}{g}
   \end{pmatrix}
   \hat{x}_{k}
 \end{equation}
@@ -130,28 +130,28 @@
 
 \begin{equation}
   \begin{pmatrix}
-  x_{k+1}\\x_{k+2}\\x_{k+3}\\
-  \vdots\\ x_{k+n}
+    x_{k+1} \\x_{k+2}\\x_{k+3}\\
+    \vdots  \\ x_{k+n}
   \end{pmatrix}
   =
   \begin{pmatrix}
-  A\\A^2\\A^3\\
-  \vdots\\ A^n
+    A      \\A^2\\A^3\\
+    \vdots \\ A^n
   \end{pmatrix}
   x_{k} +
   \begin{pmatrix}
-  B&0&\cdots & & 0\\
-  AB & B & 0 & \cdots & 0\\
-  A^2B & AB & B & \cdots & 0\\
-  \vdots & \vdots & & & 0\\
-  A^{n-1}B&A^{n-2}B&\cdots&AB&B
+    B        & 0        & \cdots &        & 0 \\
+    AB       & B        & 0      & \cdots & 0 \\
+    A^2B     & AB       & B      & \cdots & 0 \\
+    \vdots   & \vdots   &        &        & 0 \\
+    A^{n-1}B & A^{n-2}B & \cdots & AB     & B
   \end{pmatrix}
   \begin{pmatrix}
-  u_{k}\\
-  u_{k+1}\\
-  u_{k+2}\\
-  \vdots\\
-  u_{k+n-1}
+    u_{k}   \\
+    u_{k+1} \\
+    u_{k+2} \\
+    \vdots  \\
+    u_{k+n-1}
   \end{pmatrix}
   \label{eq:mpc-preview}
 \end{equation}
@@ -163,14 +163,42 @@ Wieberらによる手法\cite{WIEBER}では、式\eqref{eq:teble-cart-system-sta
   \label{eq:mpc_valuefunc}
 \end{equation}
 
-ここで、pref は目標zmp（目標出力）、pは現在のzmp（現在の出力）x…は重心のjerk（入力）となる。
-この式（）で表される評価関数とkajitaらによる手法の式（）の評価関数の違いは評価区間である。
-kajitaらの式（）では評価区間が無限区間であるのに対して、MPCを利用したwieberらの式（）は評価区間の長さがNとなっている。
+ここで、$z^{ref}$ は目標zmp（目標出力）、$z$は現在のzmp（現在の出力）$\dddot{x}$は重心のjerk（入力）となる。
+この式\eqref{eq:mpc_valuefunc}で表される評価関数とkajitaらによる手法の式\eqref{eq:preview_valuefunc}の評価関数の違いは評価区間である。
+kajitaらの式では評価区間が無限区間であるのに対して、MPCを利用したwieberらの式は評価区間の長さがNとなっている。
 
-上記の評価関数に対して、以下の式で表される不等式制約を与える。
-（式を入れる）
-（式を入れる）
+上記の評価関数に対して、式\eqref{eq:inequality-constraint-input},式\eqref{eq:inequality-constraint-state}で表される不等式制約を与える。
+
+\begin{equation}
+  \begin{pmatrix}
+    Lu_{0} \\ \vdots \\ Lu_{n}
+  \end{pmatrix}
+  \leq \dddot{x} \leq
+  \begin{pmatrix}
+    Uu_{0} \\ \vdots \\ Uu_{n}
+  \end{pmatrix}
+  \label{eq:inequality-constraint-input}
+\end{equation}
+
+\begin{equation}
+  \begin{pmatrix}
+    Lx_{0} \\ \vdots \\ Lx_{n}
+  \end{pmatrix}
+  \leq z \leq
+  \begin{pmatrix}
+    Ux_{0} \\ \vdots \\ Ux_{n}
+  \end{pmatrix}
+  \label{eq:inequality-constraint-state}
+\end{equation}
+
+% \begin{equation}
+%   \dddot{x} =
+%   \begin{pmatrix}
+%     e_{0} \\ \vdots \\ e_{n}
+%   \end{pmatrix}
+%   \label{eq:equality-constraint}
+% \end{equation}
 
 上記の不等式制約では、入力と出力に対して、上下限が設定される。入力の上下限はモーターの最大速度等、ロボットの特性によって決定される。ここで、出力制約はZMPの支持多角形内での位置に対しての制約となる。ZMPが支持多角形の境界部にある時に、ロボットは転倒を始めるので、支持多角形の境界部から一定の距離を取った範囲が制約の範囲となる。
 
-上記の式（）の評価関数を二次計画法の問題として捉え、式（）と式（）からなる制約を考慮して制御ステップ毎に解く事でそのステップでの最適入力を得る。
+上記の式\eqref{eq:mpc_valuefunc}の評価関数を二次計画法の問題として捉え、式\eqref{eq:inequality-constraint-input}と式\eqref{eq:inequality-constraint-state}からなる制約を考慮して制御ステップ毎に解く事でそのステップでの最適入力を得る。
