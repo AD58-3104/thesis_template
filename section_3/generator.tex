@@ -49,10 +49,11 @@
 （式を書く）　状態制約　不等式と等式
 （式を書く）　入力制約　不等式と等式
 
-ここで、MPCの評価関数の標準形である式（）をQPによって最小化する場合、MPCの等式、不等式制約を含め、QPの標準形となる式（）の形に変形する必要が生じる。
+ここで、MPCの評価関数の標準形である式\eqref{eq:mpc_general_valuefunc}をQPによって最小化する場合、MPCの等式、不等式制約を含め、QPの標準形となる式\eqref{eq:qp_standardform}の形に変形する必要が生じる。
 
 \begin{equation}
   \underset{x}{\min} \frac{1}{2}x^TQx \;\;\; subject \; to \; Ax = b
+  \label{eq:qp_standardform}
 \end{equation}
 
 特に、MPCの実装においては何らかのQPソルバーを利用する場合が多く、利用するソルバが求める形となるように評価関数（式（））と制約（式（））を変形する必要が生じる。
@@ -80,11 +81,11 @@
 この変形方法について述べる。
 
 まず、評価関数を変形する。
-これは、式（）を展開し、xに関する二次の項と、一次の項でまとめると以下の式\eqref{eq:mpc_to_qp}となる。これは、QPの標準形である式\eqref{eq:prog_qp}の形式である。
+これは、式\eqref{eq:mpc_valuefunc}を展開し、xに関する二次の項と、一次の項でまとめると以下の式\eqref{eq:mpc_to_qp}となる。これは、QPの標準形である式\eqref{eq:qp_prog}の形式である。
 
 （式を入れる）
 \begin{equation}
-  aaaa
+  J =  x^TQx - 2xQx_{ref} + Ru^2
   \label{eq:mpc_to_qp}
 \end{equation}
 
