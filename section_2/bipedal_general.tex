@@ -56,13 +56,7 @@
   \label{eq:teble-cart-system-output}
 \end{equation}
 
-% \begin{equation}
-%   \begin{cases}
-%     \dot{x} & = Ax + Bu \\
-%     y       & = Cx
-%   \end{cases}
-%   \label{eq:humanoid-system}
-% \end{equation}
+
 
 \begin{equation}
   \hat{x}_{k}=
@@ -115,20 +109,60 @@
 （式を入れる）
 \begin{equation}
   \min_{{\buildrel\ldots\over{x}}_{k},{\buildrel\ldots\over{x}}_{k+1},\ldots}\sum_{i=k}^{\infty}{1\over 2}Q\left(z_{i+1}-z_{i+1}^{ref}\right)^{2}+{1\over 2}R{\buildrel\ldots\over{x}}_{i}^{2}
-  \label{eq:mpc_valuefunc}
+  \label{eq:preview_valuefunc}
 \end{equation}
 
-式\eqref{eq:mpc_valuefunc}内、$z$はZMPの位置、$z^{ref}$はZMPの目標位置、$u$は入力である重心の躍度（jerk）を示す。
+式\eqref{eq:preview_valuefunc}内、$z$はZMPの位置、$z^{ref}$はZMPの目標位置、$u$は入力である重心の躍度（jerk）を示す。
 
 \subsection{MPCを利用した歩行パターン生成手法}
 本研究では、kajitaらによる予見制御を利用した歩行パターン生成手法\cite{PREVIEW}をMPCによって拡張した、Wieberらによる手法\cite{WIEBER}を実装する。ここでは、その手法\cite{WIEBER}について説明する。
 
 まず、MPCは最適制御の一種であり、無限長の区間に渡る最適化問題を解く代わりに、有限長の区間で最適化問題を解いて最適入力を得る手法である。有限区間の最適化問題であるがゆえに、陽に表現した制約を考慮しながら最適化問題を解く事ができるのが特徴である。また、有限区間での最適化問題を解く際には、有限区間に渡る未来の状態、ないしは出力の予測値を利用して最適化を行う。
-以下の式（）で表されるダイナミクスからなるシステムでは、予測は以下の式で表される。
+式\eqref{eq:control-general-system}で表されるダイナミクスからなるシステムでは、状態の予測は式\eqref{eq:mpc-preview}で表される。
 
-Wieberらによる手法\cite{WIEBER}では、式（）のダイナミクスを元に、以下を評価関数とする。
+\begin{equation}
+  \begin{cases}
+    \dot{x} & = Ax + Bu \\
+    y       & = Cx
+  \end{cases}
+  \label{eq:control-general-system}
+\end{equation}
 
-（式を入れる）
+\begin{equation}
+  \begin{pmatrix}
+  x_{k+1}\\x_{k+2}\\x_{k+3}\\
+  \vdots\\ x_{k+n}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+  A\\A^2\\A^3\\
+  \vdots\\ A^n
+  \end{pmatrix}
+  x_{k} +
+  \begin{pmatrix}
+  B&0&\cdots & & 0\\
+  AB & B & 0 & \cdots & 0\\
+  A^2B & AB & B & \cdots & 0\\
+  \vdots & \vdots & & & 0\\
+  A^{n-1}B&A^{n-2}B&\cdots&AB&B
+  \end{pmatrix}
+  \begin{pmatrix}
+  u_{k}\\
+  u_{k+1}\\
+  u_{k+2}\\
+  \vdots\\
+  u_{k+n-1}
+  \end{pmatrix}
+  \label{eq:mpc-preview}
+\end{equation}
+
+Wieberらによる手法\cite{WIEBER}では、式\eqref{eq:teble-cart-system-state}と式\eqref{eq:table-cart-system-output}からなるダイナミクスを元に、式\eqref{eq:mpc_valuefunc}を評価関数とする。
+
+\begin{equation}
+  \min_{{\buildrel\ldots\over{x}}_{k},{\buildrel\ldots\over{x}}_{k+1},\ldots,{\buildrel\ldots\over{x}}_{k+n}}\sum_{i=k}^{n}{1\over 2}Q\left(z_{i+1}-z_{i+1}^{ref}\right)^{2}+{1\over 2}R{\buildrel\ldots\over{x}}_{i}^{2}
+  \label{eq:mpc_valuefunc}
+\end{equation}
+
 ここで、pref は目標zmp（目標出力）、pは現在のzmp（現在の出力）x…は重心のjerk（入力）となる。
 この式（）で表される評価関数とkajitaらによる手法の式（）の評価関数の違いは評価区間である。
 kajitaらの式（）では評価区間が無限区間であるのに対して、MPCを利用したwieberらの式（）は評価区間の長さがNとなっている。
