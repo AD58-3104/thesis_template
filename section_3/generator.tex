@@ -21,7 +21,15 @@
 
 上記をまとめ、インターネット上で誰でもアクセス可能なGithub\cite{MYGITHUB}にて情報の公開を行う。
 
-\section{実装手法}
+\begin{figure}[hbtp]
+  \centering
+ \includegraphics[keepaspectratio, scale=0.4]
+      {images/github_example.png}
+\caption{ Github page of publication}
+ \label{Fig:github_example}
+\end{figure}
+
+\section{C++言語によるMPCを利用した歩行パターン生成器の実装}
 
 本研究では、以下の\ref{tb:library}に示すライブラリ群を利用し、C++言語にて実装を行った。
 
@@ -37,7 +45,7 @@
 \end{table}
 
 
-\subsection{実装上必要なMPCの式変形}
+\section{実装上必要なMPCの式変形}
 式\eqref{eq:control-general-system}で表される標準的なシステムに対する、MPCにおける評価関数の標準的な立式は式\eqref{eq:mpc_general_valuefunc}となる。
 
 \begin{equation}
@@ -76,7 +84,7 @@
 
 ここで、$H,A,Aeq$は行列、$f,b,beq,lb,ub,x$はベクトルである。
 
-また、今回利用したQPソルバであるosqp\cite{OSQP}もそれのPython、C、C++に向けたバインディング全てでmatlabのquadprogと同じく式\eqref{eq:qp_prog}の形式で評価関数と制約を表現する必要がある。
+また、今回利用したQPソルバであるosqp\cite{OSQP}もそれのPython、C、C++に向けたバインディング全てでmatlabのquadprogと同じく式\eqref{eq:qp_prog}と式\eqref{eq:qp_constraint}の形式で評価関数と制約を表現する必要がある。
 
 この変形方法について述べる。
 
@@ -151,8 +159,35 @@
 
 式\eqref{eq:mpc_constraint_vectors}のuiは不等式制約の上限、liは不等式制約の下限、eiは等式制約の値とする。
 
-ここで、Aの上部N列を構成する等式制約はモデル予測制御における有限長の未来の出力（状態）の予測である。この等式制約により、式（）のzを出力（状態）予測値として束縛する。これにより、QPの形式でMPCの出力（状態）に関する制約を表現することが可能となる。
+ここで、Aの上部N列を構成する等式制約はモデル予測制御における有限長の未来の状態の予測である。この等式制約により、式（）のzを状態予測値として束縛する。これにより、QPの形式でMPCの状態に関する制約を表現することが可能となる。また、この予測は、出力に対しても行うことができる。その場合は予測の式（）に対してCの対角行列式（）を左から掛ける。
 
 最適解のベクトルを式\eqref{eq:augment_vec}の形式に拡大したことで、MPCの評価関数 式\eqref{eq:mpc_valuefunc}を展開し、ベクトルx~の二次の項と一次の項でまとめた式は以下となる。
 
 （式を書く）　hとgについて明示する
+
+
+\section{本研究で実装したソフトウェアのパラメータ}
+
+ここでは、4章に示す、本研究で実装したソフトウェアで歩行パターンを生成可能なパラメータについて解説する。
+
+本研究で実装した歩行パターン生成手法では、主に表\ref{tb:parametor_list}がパラメータとして調整可能な要素とされる。
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{|c|c|} \hline
+    Control Horizon  [$s$] \\ \hline
+    Unit time  [$ms$] \\ \hline
+    Q / R   \\ \hline
+    % Height of CoM  [$m$] \\ \hline
+    Step width  [$m$] \\ \hline
+    Upper bound of difference between ref and current output.  [$m$] \\ \hline
+    Lower bound of difference between ref and current output.  [$m$] \\ \hline
+    Upper bound of input  [$m/s^{3}$] \\ \hline
+    Lower bound of input  [$m/s^{3}$] \\ \hline
+  \end{tabular}
+  \caption{Libraries used for implementation}
+  \label{tb:parametor_list}
+\end{table}
+
+表\ref{tb:parametor_list}の要素のうち Control Horizon、Unit time、Q / R、Step widthは主に生成する歩行パターンの安定性、追従性能に影響を及ぼす。また、Control Horizon、Unit time、Q / R、Step widthに対する入力と出力の上下限の制約の関係は、解となる最適入力の実行可能性に影響を及ぼす。
+本研究の中で、情報としてGithub\cite{MYGITHUB}で公開した表\ref{tb:parametor_list}に示したパラメータの具体的例は4章で示す。
