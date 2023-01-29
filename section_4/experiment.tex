@@ -21,11 +21,13 @@
   \label{tb:parametor}
 \end{table}
 
-以下に生成した重心とZMPの軌道、MPCによって求められた最適入力を示す。
+\newpage
+
+次に、生成した重心とZMPの軌道、最適入力を図\ref{Fig:zmptrajectory}と図\ref{Fig:optimalinput}に示す。
 
 \begin{figure}[hbtp]
   \centering
- \includegraphics[keepaspectratio, scale=0.8]
+ \includegraphics[keepaspectratio, scale=0.6]
       {images/zmp_trajectory.png}
  \caption{Generated zmp and CoM trajectory }
  \label{Fig:zmptrajectory}
@@ -33,12 +35,13 @@
 
 \begin{figure}[hbtp]
   \centering
- \includegraphics[keepaspectratio, scale=0.7]
+ \includegraphics[keepaspectratio, scale=0.6]
       {images/calculated_input.png}
 \caption{Optimal input}
  \label{Fig:optimalinput}
 \end{figure}
 
+\newpage
 図\ref{Fig:zmptrajectory} より、ZMP が目標 ZMP に追従する軌道が生成できていることが分かる。 また、図\ref{Fig:zmptrajectory}より状態が 、図\ref{Fig:optimalinput}より入力が設定した制約の範囲内に留まっており、適切な歩行パターンが生成できていることも分かる。
 
 
