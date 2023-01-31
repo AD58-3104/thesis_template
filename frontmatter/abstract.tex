@@ -9,9 +9,11 @@
 \end{center}
 \vspace{1.0zh}
 %
-一般に二足歩行ロボットの歩行では,転倒しない,という条件を常に満たす必要がある.そのため,二足歩行ロボットの歩行パターン生成はこの条件を達成するために接触力などの様々な制約を考慮して行われる.これに対して,明示的な制約を考慮して制御を行うことが可能な手法であるモデル予測制御(以下,MPC)の相性は良く,近年MPCを用いた二足歩行ロボットの歩行パターン生成手法が多く発表されている.しかし,発表数の多さにも関わらず,MPCを利用した歩行パターン生成の公開された実装は非常に少ない.現在インターネット上での公開されている実装は3件に留まっている.これにより,MPCを利用した歩行パターン生成をユーザーとして利用したい場合や,新たに学びたい場合には個別に都度ノウハウや実装手法を自らの手で一から構築する必要があるという問題がある.本研究ではこれらの問題を解決するために,論文などで紹介されているMPCを利用した二足歩行ロボットの歩行パターン生成手法を実装し,ソースコードと実装時に得た知見を公開する.
 
-キーワード: 歩行パターン生成,ヒューマノイド,最適制御
+一般に二足歩行ロボットの歩行では，転倒しない，という条件を常に満たす必要がある.そのため，二足歩行ロボットの歩行パターン生成はこの条件を達成するために接触力などの様々な制約を考慮して行われる.これに対して，明示的な制約を考慮して制御を行うことが可能な手法であるモデル予測制御(以下，MPC)の相性は良く，近年MPCを用いた二足歩行ロボットの歩行パターン生成手法が多く発表されている.しかし，発表数の多さにも関わらず，MPCを利用した歩行パターン生成の公開された実装は非常に少ない.現在インターネット上での公開されている実装は3件に留まっている.これにより，MPCを利用した歩行パターン生成をユーザーとして利用したい場合や，新たに学びたい場合には個別に都度ノウハウや実装手法を自らの手で一から構築する必要があるという問題がある.本研究ではこれらの問題を解決するために，論文などで紹介されているMPCを利用した二足歩行ロボットの歩行パターン生成手法を実装し，ソースコードと実装時に得た知見を公開する.
+\vspace{1.0zh}
+
+キーワード: 歩行パターン生成，ヒューマノイド，最適制御
 %
 \newpage
 %%
@@ -19,7 +21,7 @@
 \thispagestyle{empty}
 %
 \begin{center}
-  \scalebox{1.3}{Implementation and publication of a walking pattern generation}\\
+  \scalebox{1.5}{Implementation and publication of a walking pattern generation}\\
   \vspace{-0.3zh}
   \scalebox{1.5}{for biped robots using model predictive control}
 \end{center}
@@ -28,5 +30,6 @@
 
 
 Generally, the generation of walking patterns for biped robots requires consideration of various constraints to avoid falling down. These constraints make model predictive control, which can explicitly take constraints into account, a good match. Therefore, the number of publications on MPC-based gait pattern generation methods has increased in recent years. Despite a large number of publications, there are very few implementations and publications of MPC-based gait pattern generation. Only three implementations are currently available on the internet. This creates the problem that people who want to use MPC-based gait pattern generation as a user or want to learn new methods have to individually build their know-how and implementation methods. In order to solve these problems, this research implements a walking pattern generation method for biped robots using MPCs, and discloses the source code and implementation-specific innovations.
+\vspace{1.0zh}
 
 keywords: Gait Pattern Generation, Humanoid, Optimal Control

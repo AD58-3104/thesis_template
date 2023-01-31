@@ -1,37 +1,37 @@
 %!TEX root = ../thesis.tex
 \section{緒言}
-本章では、本研究での歩行パターン生成器の実装手法、及び公開した情報について述べる。
+本章では，本研究での歩行パターン生成器の実装手法，及び公開した情報について述べる．
 
 \section{公開する情報}
-本研究では、公開する内容として、文献等で明文化されにくい部分を特に対象とする。現状、筆者が文献等での明文化が少ないと認識しているのは以下の3種の情報である。
+本研究では，公開する内容として，文献等で明文化されにくい部分を特に対象とする．現状，筆者が文献等での明文化が少ないと認識しているのは以下の3種の情報である．
 \begin{enumerate}
   \item 具体的なソースコードの実装
   \item 実際に歩行パターンを生成可能なパラメータの例
   \item 実装時に得た知見
 \end{enumerate}
 
-以上3種の情報に対して、本研究では具体的に以下に示す情報を公開する。
+以上3種の情報に対して，本研究では具体的に以下に示す情報を公開する．
 
 \begin{itemize}
   \item C++言語で実装したMPCによる歩行パターン生成器のソースコード
   \item 式\eqref{eq:mpc_valuefunc}で示されるMPCの標準形である評価関数を最適化ソルバーが求める形式へ変形する手法
   \item 実装した歩行パターン生成器で歩行パターンを生成可能なパラメータの一例
-  \item 上記の実装を行う上で、筆者が得た知見
+  \item 上記の実装を行う上で，筆者が得た知見
 \end{itemize}
 
-上記をまとめ、インターネット上で誰でもアクセス可能なGithub\cite{MYGITHUB}にて情報の公開を行う。
+上記をまとめ，インターネット上で誰でもアクセス可能なGitHub\cite{MYGITHUB}にて情報の公開を行う．
 
 \begin{figure}[hbtp]
   \centering
   \includegraphics[keepaspectratio, scale=0.4]
   {images/github_example.png}
-  \caption{ Github page of publication}
+  \caption{ GitHub page of publication}
   \label{Fig:github_example}
 \end{figure}
 
 \section{C++言語によるMPCを利用した歩行パターン生成器の実装}
 
-本研究では、以下の\ref{tb:library}に示すライブラリ群を利用し、C++言語にて実装を行った。
+本研究では，以下の\ref{tb:library}に示すライブラリ群を利用し，C++言語にて実装を行った．
 
 \begin{table}[htbp]
   \centering
@@ -46,14 +46,14 @@
 
 
 \section{実装上必要なMPCの式変形}
-式\eqref{eq:control-general-system}で表される標準的なシステムに対する、MPCにおける評価関数の標準的な立式は式\eqref{eq:mpc_general_valuefunc}となる。
+式\eqref{eq:control-general-system}で表される標準的なシステムに対する，MPCにおける評価関数の標準的な立式は式\eqref{eq:mpc_general_valuefunc}となる．
 
 \begin{equation}
   \min_{{\buildrel\ldots\over{x}}_{k},{\buildrel\ldots\over{x}}_{k+1},\ldots,{\buildrel\ldots\over{x}}_{k+n}}\sum_{i=k}^{n}{1\over 2}Q\left(x_{i+1}-x_{i+1}^{ref}\right)^{2}+{1\over 2}R{u}_{i}^{2}
   \label{eq:mpc_general_valuefunc}
 \end{equation}
 
-また、等式と不等式からなる制約は以下で表される。
+また，等式と不等式からなる制約は以下で表される．
 
 \begin{equation}
   \underbar{$x$} \leq x_{k} \leq  \bar{x} \; ,\; \underbar{$u$} \leq u_{k} \leq \bar{u}
@@ -61,15 +61,15 @@
 \end{equation}
 
 
-ここで、MPCの評価関数の標準形である式\eqref{eq:mpc_general_valuefunc}をQPによって最小化する場合、式\eqref{eq:mpc_constraint_general}の等式、不等式制約を含め、QPの標準形となる式\eqref{eq:qp_standardform}の形に変形する必要が生じる。
+ここで，MPCの評価関数の標準形である式\eqref{eq:mpc_general_valuefunc}をQPによって最小化する場合，式\eqref{eq:mpc_constraint_general}の等式，不等式制約を含め，QPの標準形となる式\eqref{eq:qp_standardform}の形に変形する必要が生じる．
 
 \begin{equation}
   \underset{x}{\min} \frac{1}{2}x^TQx \;\;\; subject \; to \; Ax \leq b
   \label{eq:qp_standardform}
 \end{equation}
 
-特に、MPCの実装においては何らかのQPソルバーを利用する場合が多く、利用するソルバが求める形となるように評価関数式\eqref{eq:mpc_general_valuefunc}と制約式\eqref{eq:mpc_constraint_general}を変形する必要が生じる。
-例として、matlab\cite{MATLAB:2021}のQPソルバであるquadprog\cite{MATLABQUADPLOG}では、以下の形式で表す必要がある。
+特に，MPCの実装においては何らかのQPソルバーを利用する場合が多く，利用するソルバが求める形となるように評価関数式\eqref{eq:mpc_general_valuefunc}と制約式\eqref{eq:mpc_constraint_general}を変形する必要が生じる．
+例として，matlab\cite{MATLAB:2021}のQPソルバであるquadprog\cite{MATLABQUADPLOG}では，以下の形式で表す必要がある．
 
 \begin{equation}
   \underset{x}{\min} \frac{1}{2}x^THx + f^Tx
@@ -86,21 +86,21 @@
   \label{eq:qp_constraint}
 \end{equation}
 
-ここで、$H,A,Aeq$は行列、$f,b,beq,lb,ub,x$はベクトルである。また、$x$はQPの最適解である。
+ここで，$H,A,Aeq$は行列，$f,b,beq,lb,ub,x$はベクトルである．また，$x$はQPの最適解である．
 
-また、今回利用したQPソルバであるosqp\cite{OSQP}もそれのPython、C、C++に向けたバインディング全てでmatlabのquadprogと同じく式\eqref{eq:qp_prog}と式\eqref{eq:qp_constraint}の形式で評価関数と制約を表現する必要がある。
+また，今回利用したQPソルバであるosqp\cite{OSQP}もそれのPython，C，C++に向けたバインディング全てでmatlabのquadprogと同じく式\eqref{eq:qp_prog}と式\eqref{eq:qp_constraint}の形式で評価関数と制約を表現する必要がある．
 
-次に、上記の評価関数と制約の変形を行う手法について述べる。まず、評価関数の変形について述べる。
-式\eqref{eq:mpc_valuefunc}を展開し、xに関する二次の項と、一次の項でまとめると以下の式\eqref{eq:mpc_to_qp}となる。これは、QPの標準形である式\eqref{eq:qp_prog}の形式である。
+次に，上記の評価関数と制約の変形を行う手法について述べる．まず，評価関数の変形について述べる．
+式\eqref{eq:mpc_valuefunc}を展開し，xに関する二次の項と，一次の項でまとめると以下の式\eqref{eq:mpc_to_qp}となる．これは，QPの標準形である式\eqref{eq:qp_prog}の形式である．
 
 \begin{equation}
   J =  x^TQx - 2xQx_{ref} + Ru^2
   \label{eq:mpc_to_qp}
 \end{equation}
 
-次に、制約を求められる形式である式\eqref{eq:qp_constraint}として表す。
-ここで、MPCの制約条件である式\eqref{eq:mpc_constraint_general}、式\eqref{eq:mpc_general_valuefunc}と式\eqref{eq:qp_constraint}を比較すると、MPCでの制約条件は状態と入力のニ種の変数に対する制約であるのに対して、QPでは式\eqref{eq:qp_constraint}のようにQPの最適解である一つのベクトルxで表す。
-ここで、ニ種の制約を式\eqref{eq:qp_constraint}の一つの行列Aで表すための実装上の工夫として、最適解である$x$を拡張して、以下のように表現する。
+次に，制約を求められる形式である式\eqref{eq:qp_constraint}として表す．
+ここで，MPCの制約条件である式\eqref{eq:mpc_constraint_general}，式\eqref{eq:mpc_general_valuefunc}と式\eqref{eq:qp_constraint}を比較すると，MPCでの制約条件は状態と入力の2つの変数に対する制約であるのに対して，QPでは式\eqref{eq:qp_constraint}のようにQPの最適解である一つのベクトル$x$で表す．
+ここで，2つの制約を式\eqref{eq:qp_constraint}の一つの行列Aで表すための実装上の工夫として，最適解である$x$を拡張して，以下のように表現する．
 
 \begin{equation}
   \hat{x} =
@@ -112,8 +112,8 @@
   \label{eq:augment_vec}
 \end{equation}
 
-ここで、$x_{k}$は状態、$u_{k}$がQPの最適解（MPCにおけるシステムへの入力）とする。
-式\eqref{eq:qp_prog},\eqref{eq:qp_constraint}の$x$を上記の式\eqref{eq:augment_vec}のベクトルで表すと、式\eqref{eq:qp_constraint}の$A$は以下のように表せる。
+ここで，$x_{k}$は状態，$u_{k}$がQPの最適解（MPCにおけるシステムへの入力）とする．
+式\eqref{eq:qp_prog},\eqref{eq:qp_constraint}の$x$を上記の式\eqref{eq:augment_vec}のベクトルで表すと，式\eqref{eq:qp_constraint}の$A$は以下のように表せる．
 
 \begin{equation}
   A_{c} =
@@ -125,7 +125,7 @@
   \label{eq:mpc_constraint_matrix}
 \end{equation}
 
-また、式\eqref{eq:qp_constraint}の$lb,ub$は以下のように表せる。
+また，式\eqref{eq:qp_constraint}の$lb,ub$は以下のように表せる．
 
 \begin{equation}
   \hat{lb} =
@@ -141,10 +141,10 @@
   \label{eq:augment_ub_and_lb}
 \end{equation}
 
-式\eqref{eq:augment_ub_and_lb}の$e$は等式制約の値、$ub,lb$は不等式制約の上限と下限である。
+式\eqref{eq:augment_ub_and_lb}の$e$は等式制約の値，$ub,lb$は不等式制約の上限と下限である．
 
 
-式\eqref{eq:mpc_constraint_matrix}と式\eqref{eq:augment_ub_and_lb}により、式\eqref{eq:qp_constraint}の制約は以下で表せる。
+式\eqref{eq:mpc_constraint_matrix}と式\eqref{eq:augment_ub_and_lb}により，式\eqref{eq:qp_constraint}の制約は以下で表せる．
 
 \begin{equation}
   \begin{cases}
@@ -184,9 +184,9 @@
 % \end{equation}
 
 
-ここで、\eqref{eq:mpc_constraint_matrix}の上部N列を構成する等式制約はモデル予測制御における有限長の未来の状態の予測である。この等式制約により、式\eqref{eq:augment_vec}の$x_{k}$を状態予測値として束縛する。これにより、QPの形式でMPCの状態に関する制約を表現することが可能となる。
+ここで，\eqref{eq:mpc_constraint_matrix}の上部N列を構成する等式制約はモデル予測制御における有限長の未来の状態の予測である．この等式制約により，式\eqref{eq:augment_vec}の$x_{k}$を状態予測値として束縛する．これにより，QPの形式でMPCの状態に関する制約を表現することが可能となる．
 
-最適解のベクトルを式\eqref{eq:augment_vec}の形式に拡大したことで、MPCの評価関数 式\eqref{eq:mpc_valuefunc}を展開し、ベクトル$\hat{x}$の二次の項と一次の項でまとめた式は以下となる。
+最適解のベクトルを式\eqref{eq:augment_vec}の形式に拡大したことで，MPCの評価関数 式\eqref{eq:mpc_valuefunc}を展開し，ベクトル$\hat{x}$の二次の項と一次の項でまとめた式は以下となる．
 
 \begin{equation}
   \frac{1}{2}\hat{x}^T
@@ -207,13 +207,13 @@
   \hat{x}
 \end{equation}
 
-ここでは、状態に対しての評価関数と制約の変形方法について述べたが、上記の$x_{k}$を$Cx_{k}$に、$x_{k}^{ref}$を$z_{k}^{ref}$に置き換えることで出力に関しても同じことを表現できる。
+ここでは，状態に対しての評価関数と制約の変形方法について述べたが，上記の$x_{k}$を$Cx_{k}$に，$x_{k}^{ref}$を$z_{k}^{ref}$に置き換えることで出力に関しても同じことを表現できる．
 
 \section{本研究で実装したソフトウェアのパラメータ}
 
-ここでは、4章に示す、本研究で実装したソフトウェアで歩行パターンを生成可能なパラメータについて解説する。
+ここでは，4章に示す，本研究で実装したソフトウェアで歩行パターンを生成可能なパラメータについて解説する．
 
-本研究で実装した歩行パターン生成手法では、主に表\ref{tb:parametor_list}がパラメータとして調整可能な要素とされる。
+本研究で実装した歩行パターン生成手法では，主に表\ref{tb:parametor_list}がパラメータとして調整可能な要素とされる．
 
 \begin{table}[htbp]
   \centering
@@ -232,5 +232,5 @@
   \label{tb:parametor_list}
 \end{table}
 
-表\ref{tb:parametor_list}の要素のうち Control Horizon、Unit time、Q / R、Step widthは主に生成する歩行パターンの安定性、追従性能に影響を及ぼす。また、Control Horizon、Unit time、Q / R、Step widthに対する入力と出力の上下限の制約の関係は、解となる最適入力の実行可能性に影響を及ぼす。
-本研究の中で、情報としてGithub\cite{MYGITHUB}にて公開したパラメータの具体例は4章で示す。
+表\ref{tb:parametor_list}の要素のうち Control Horizon，Unit time，Q / R，Step widthは主に生成する歩行パターンの安定性，追従性能に影響を及ぼす．また，Control Horizon，Unit time，Q / R，Step widthに対する入力と出力の上下限の制約の関係は，解となる最適入力の実行可能性に影響を及ぼす．
+本研究の中で，情報としてGitHub\cite{MYGITHUB}にて公開したパラメータの具体例は4章で示す．
